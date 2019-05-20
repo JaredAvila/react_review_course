@@ -10,7 +10,8 @@ class App extends Component {
       { name: "Sophia", age: 5 },
       { name: "Samuel", age: 2 }
     ],
-    other: "Other Stuff"
+    otherState: "some other stuff",
+    showPeople: false
   };
 
   switchNameHandler = name => {
@@ -21,6 +22,13 @@ class App extends Component {
         { name: "Sophia", age: 5.5 },
         { name: "Samuel", age: 2.5 }
       ]
+    });
+  };
+
+  togglePeopleHandler = () => {
+    const doesShow = this.state.showPeople;
+    this.setState({
+      showPeople: !doesShow
     });
   };
 
@@ -35,32 +43,42 @@ class App extends Component {
     });
   };
   render() {
+    const style = {
+      backgroundColor: "white",
+      font: "inherit",
+      border: "1px solid blue",
+      padding: "8px",
+      cursor: "pointer"
+    };
+
     return (
       <div className="App">
         <h1>Hi, I'm a React component</h1>
-        <button onClick={this.switchNameHandler.bind(this, "Billy")}>
-          {" "}
-          {/* the more efficient way of doing it. As opposed to annon arrow func */}
-          Switch Name
+        <button style={style} onClick={this.togglePeopleHandler}>
+          Toggle People
         </button>
-        <Person
-          name={this.state.people[0].name}
-          age={this.state.people[0].age}
-        />
-        <Person
-          name={this.state.people[1].name}
-          age={this.state.people[1].age}
-          click={this.switchNameHandler.bind(this)}
-          changed={this.nameChangeHandler}
-        />
-        <Person
-          name={this.state.people[2].name}
-          age={this.state.people[2].age}
-        />
-        <Person
-          name={this.state.people[3].name}
-          age={this.state.people[3].age}
-        />
+        {this.state.showPeople ? (
+          <div>
+            <Person
+              name={this.state.people[0].name}
+              age={this.state.people[0].age}
+            />
+            <Person
+              name={this.state.people[1].name}
+              age={this.state.people[1].age}
+              click={this.switchNameHandler.bind(this)}
+              changed={this.nameChangeHandler}
+            />
+            <Person
+              name={this.state.people[2].name}
+              age={this.state.people[2].age}
+            />
+            <Person
+              name={this.state.people[3].name}
+              age={this.state.people[3].age}
+            />
+          </div>
+        ) : null}
       </div>
     );
   }
