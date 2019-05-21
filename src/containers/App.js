@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import "./App.css";
-import Person from "./Person/Person";
+import classes from "./App.css";
+import Cockpit from "../components/Cockpit/Cockpit";
+import People from "../components/People/People";
 
 class App extends Component {
   state = {
@@ -49,54 +50,26 @@ class App extends Component {
     });
   };
   render() {
-    const style = {
-      backgroundColor: "green",
-      font: "inherit",
-      color: "white",
-      border: "1px solid blue",
-      padding: "8px",
-      cursor: "pointer",
-      transition: "all 250ms ease"
-    };
-
     let people = null;
 
     if (this.state.showPeople) {
       people = (
-        <div>
-          {this.state.people.map((person, index) => {
-            return (
-              <Person
-                key={person.id}
-                name={person.name}
-                age={person.age}
-                click={() => this.deletePersonHandler(index)}
-                changed={event => this.nameChangeHandler(event, person.id)}
-              />
-            );
-          })}
-        </div>
+        <People
+          people={this.state.people}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangeHandler}
+        />
       );
-      style.backgroundColor = "red";
-    }
-
-    let classes = [];
-
-    if (this.state.people.length <= 2) {
-      classes.push("red");
-    }
-
-    if (this.state.people.length <= 1) {
-      classes.push("bold");
     }
 
     return (
-      <div className="App">
-        <h1>Hi, I'm a React component</h1>
-        <p className={classes.join(" ")}>This is really working!</p>
-        <button style={style} onClick={this.togglePeopleHandler}>
-          Toggle People
-        </button>
+      <div className={classes.App}>
+        <Cockpit
+          title = {this.props.title}
+          people={this.state.people}
+          showPeople={this.state.showPeople}
+          clicked={this.togglePeopleHandler}
+        />
         {people}
       </div>
     );
