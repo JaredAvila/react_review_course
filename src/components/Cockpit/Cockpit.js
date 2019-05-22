@@ -7,27 +7,36 @@ const Cockpit = props => {
     setTimeout(() => {
       alert("Cockpit is mounted");
     }, 2000);
+    return () => {
+      console.log("[Cockpit] useEffect unmount cleanup");
+    };
   }, []);
   useEffect(() => {
     console.log("[Cockpit] useEffect only when props.people changes");
     setTimeout(() => {
       alert("People Changed!");
     }, 2000);
-  }, [props.people]);
+    return () => {
+      console.log("[Cockpit] useEffect People changed cleanup");
+    };
+  }, [props.peopleLength]);
   useEffect(() => {
     console.log("[Cockpit] useEffect triggers everytime Cockpit is rendered");
     setTimeout(() => {
       alert("Cockpit rendered");
     }, 2000);
+    return () => {
+      console.log("[Cockpit] useEffect Cockpit rendered cleanup");
+    };
   });
 
   const assignedClasses = [];
 
-  if (props.people.length <= 2) {
+  if (props.peopleLength <= 2) {
     assignedClasses.push(classes.red);
   }
 
-  if (props.people.length <= 1) {
+  if (props.peopleLength <= 1) {
     assignedClasses.push(classes.bold);
   }
   let btnClass = "";
@@ -47,4 +56,4 @@ const Cockpit = props => {
   );
 };
 
-export default Cockpit;
+export default React.memo(Cockpit);
