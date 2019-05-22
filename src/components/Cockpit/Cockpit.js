@@ -3,7 +3,22 @@ import classes from "./Cockpit.css";
 
 const Cockpit = props => {
   useEffect(() => {
-    console.log("[Cockpit] useEffect");
+    console.log("[Cockpit] useEffect as componentDidMount");
+    setTimeout(() => {
+      alert("Cockpit is mounted");
+    }, 2000);
+  }, []);
+  useEffect(() => {
+    console.log("[Cockpit] useEffect only when props.people changes");
+    setTimeout(() => {
+      alert("People Changed!");
+    }, 2000);
+  }, [props.people]);
+  useEffect(() => {
+    console.log("[Cockpit] useEffect triggers everytime Cockpit is rendered");
+    setTimeout(() => {
+      alert("Cockpit rendered");
+    }, 2000);
   });
 
   const assignedClasses = [];
