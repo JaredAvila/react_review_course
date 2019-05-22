@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import classes from "./Cockpit.css";
 import AuthContext from "../../context/auth-context";
 
 const Cockpit = props => {
   const toggleRef = useRef(null);
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     toggleRef.current.click();
     console.log("[Cockpit] useEffect as componentDidMount");
+    console.log(authContext.authenticated);
   }, []);
   // useEffect(() => {
   //   console.log("[Cockpit] useEffect only when props.people changes");
@@ -50,13 +52,9 @@ const Cockpit = props => {
       <button ref={toggleRef} className={btnClass} onClick={props.clicked}>
         Toggle People
       </button>
-      <AuthContext.Consumer>
-        {context => (
-          <button onClick={context.login}>
-            {context.authenticated ? "Logout" : "Login"}
-          </button>
-        )}
-      </AuthContext.Consumer>
+      <button onClick={authContext.login}>
+        {authContext.authenticated ? "Logout" : "Login"}
+      </button>
     </div>
   );
 };
