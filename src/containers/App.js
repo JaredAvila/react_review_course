@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import classes from "./App.css";
 import Cockpit from "../components/Cockpit/Cockpit";
 import People from "../components/People/People";
+import AuthContext from "../context/auth-context";
 
 class App extends Component {
   constructor(props) {
@@ -18,7 +19,8 @@ class App extends Component {
     ],
     otherState: "some other stuff",
     showPeople: false,
-    showCockpit: true
+    showCockpit: true,
+    loggedIn: false
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -73,6 +75,12 @@ class App extends Component {
       people: people
     });
   };
+
+  loginHandler = () => {
+    let check = this.state.loggedIn;
+    this.setState({ loggedIn: !check });
+  };
+
   render() {
     console.log("[App] render");
     let people = null;
@@ -96,15 +104,22 @@ class App extends Component {
         >
           Remove Cockpit
         </button>
-        {this.state.showCockpit ? (
-          <Cockpit
-            title={this.props.title}
-            peopleLength={this.state.people.length}
-            showPeople={this.state.showPeople}
-            clicked={this.togglePeopleHandler}
-          />
-        ) : null}
-        {people}
+        <AuthContext.Provider
+          value={{
+            authenticated: this.state.loggedIn,
+            login: this.loginHandler
+          }}
+        >
+          {this.state.showCockpit ? (
+            <Cockpit
+              title={this.props.title}
+              peopleLength={this.state.people.length}
+              showPeople={this.state.showPeople}
+              clicked={this.togglePeopleHandler}
+            />
+          ) : null}
+          {people}
+        </AuthContext.Provider>
       </div>
     );
   }
